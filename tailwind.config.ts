@@ -61,7 +61,29 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				cinema: {
+					'dark': 'hsl(var(--cinema-dark))',
+					'card': 'hsl(var(--cinema-card))',
+					'card-hover': 'hsl(var(--cinema-card-hover))',
+					'text': 'hsl(var(--cinema-text))',
+					'text-muted': 'hsl(var(--cinema-text-muted))',
+					'sidebar': 'hsl(var(--cinema-sidebar))'
+				},
+				neon: {
+					'green': 'hsl(var(--neon-green))',
+					'green-glow': 'hsl(var(--neon-green-glow))'
 				}
+			},
+			backgroundImage: {
+				'gradient-main': 'var(--gradient-main)',
+				'gradient-card': 'var(--gradient-card)',
+				'gradient-neon': 'var(--gradient-neon)'
+			},
+			boxShadow: {
+				'neon': 'var(--shadow-neon)',
+				'card': 'var(--shadow-card)',
+				'glow': 'var(--shadow-glow)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

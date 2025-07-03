@@ -8,35 +8,56 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Cinema Dashboard Dark Theme */
+    --background: 220 27% 5%;
+    --foreground: 0 0% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 220 20% 8%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 220 20% 8%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 75 100% 75%;
+    --primary-foreground: 220 27% 5%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 220 15% 12%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 75 100% 75%;
+    --accent-foreground: 220 27% 5%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 96%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 15% 15%;
+    --input: 220 15% 15%;
+    --ring: 75 100% 75%;
 
-    --radius: 0.5rem;
+    /* Cinema-specific colors */
+    --neon-green: 75 100% 75%;
+    --neon-green-glow: 75 100% 50%;
+    --cinema-dark: 220 27% 5%;
+    --cinema-card: 220 20% 8%;
+    --cinema-card-hover: 220 20% 12%;
+    --cinema-text: 0 0% 96%;
+    --cinema-text-muted: 0 0% 60%;
+    --cinema-sidebar: 220 25% 6%;
+    
+    /* Gradients */
+    --gradient-main: linear-gradient(135deg, hsl(220, 27%, 5%) 0%, hsl(220, 30%, 8%) 50%, hsl(220, 25%, 6%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(220, 20%, 8%) 0%, hsl(220, 18%, 10%) 100%);
+    --gradient-neon: linear-gradient(90deg, hsl(75, 100%, 75%) 0%, hsl(75, 100%, 85%) 100%);
+    
+    /* Shadows */
+    --shadow-neon: 0 0 20px hsl(75 100% 75% / 0.3);
+    --shadow-card: 0 8px 32px hsl(220 27% 5% / 0.5);
+    --shadow-glow: 0 0 40px hsl(75 100% 75% / 0.2);
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
