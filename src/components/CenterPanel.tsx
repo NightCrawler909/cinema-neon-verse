@@ -1,4 +1,5 @@
-import { Search, Play, Star } from "lucide-react";
+import { Search, Play, Star, User } from "lucide-react";
+import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from '@clerk/clerk-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import shazamPoster from "@/assets/shazam-poster.jpg";
@@ -38,15 +39,42 @@ const movies = [
 ];
 
 export function CenterPanel() {
+  const { user } = useUser();
+  
   return (
     <div className="flex-1 p-8 bg-gradient-main">
-      {/* Search Bar */}
-      <div className="relative mb-8">
-        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cinema-text-muted w-5 h-5" />
-        <Input 
-          placeholder="Type to Search..."
-          className="w-full max-w-md mx-auto block bg-cinema-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
-        />
+      {/* Header with Search and User Info */}
+      <div className="flex items-center justify-between mb-8">
+        <div className="relative">
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cinema-text-muted w-5 h-5" />
+          <Input 
+            placeholder="Type to Search..."
+            className="w-80 bg-cinema-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
+          />
+        </div>
+        
+        {/* User Authentication Section */}
+        <div className="flex items-center gap-4">
+          <SignedOut>
+            <SignInButton>
+              <Button variant="outline" className="border-neon-green text-neon-green hover:bg-neon-green hover:text-cinema-dark">
+                Sign In
+              </Button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <div className="flex items-center gap-3">
+              <span className="text-cinema-text">Hi {user?.firstName || user?.username || 'User'}!</span>
+              <UserButton 
+                appearance={{
+                  elements: {
+                    avatarBox: "w-8 h-8"
+                  }
+                }}
+              />
+            </div>
+          </SignedIn>
+        </div>
       </div>
 
       {/* Featured Movie */}
