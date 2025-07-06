@@ -42,14 +42,14 @@ export function CenterPanel() {
   const { user } = useUser();
   
   return (
-    <div className="flex-1 p-8 bg-gradient-main">
+    <div className="flex-1 p-4 sm:p-6 lg:p-8 bg-gradient-main">
       {/* Header with Search and User Info */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="relative">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+        <div className="relative w-full sm:w-auto">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cinema-text-muted w-5 h-5" />
           <Input 
             placeholder="Type to Search..."
-            className="w-80 bg-cinema-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
+            className="w-full sm:w-80 bg-cinema-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
           />
         </div>
         
@@ -64,7 +64,7 @@ export function CenterPanel() {
           </SignedOut>
           <SignedIn>
             <div className="flex items-center gap-3">
-              <span className="text-cinema-text">Hi {user?.firstName || user?.username || 'User'}!</span>
+              <span className="text-cinema-text hidden sm:inline">Hi {user?.firstName || user?.username || 'User'}!</span>
               <UserButton 
                 appearance={{
                   elements: {
@@ -102,7 +102,7 @@ export function CenterPanel() {
       </div>
 
       {/* Movie Carousel */}
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {movies.map((movie) => (
           <div 
             key={movie.id}
