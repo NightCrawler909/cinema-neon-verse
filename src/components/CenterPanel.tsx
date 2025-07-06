@@ -78,9 +78,9 @@ export function CenterPanel() {
       </div>
 
       {/* Featured Movie */}
-      <div className="mb-12">
+      <div className="mb-8 lg:mb-12">
         <div 
-          className="relative w-full h-96 bg-gradient-card rounded-3xl overflow-hidden shadow-card"
+          className="relative w-full h-48 sm:h-64 lg:h-96 bg-gradient-card rounded-2xl lg:rounded-3xl overflow-hidden shadow-card"
           style={{
             backgroundImage: "url('/lovable-uploads/d33775cf-4021-4019-bc26-9117f7ac6a39.png')",
             backgroundSize: "cover",
@@ -88,12 +88,12 @@ export function CenterPanel() {
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-cinema-dark/80 via-transparent to-cinema-dark/60">
-            <div className="absolute bottom-8 left-8">
-              <h2 className="text-4xl font-bold text-cinema-text mb-4">
+            <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-8">
+              <h2 className="text-xl sm:text-2xl lg:text-4xl font-bold text-cinema-text mb-2 sm:mb-3 lg:mb-4">
                 Mavka: Forest Song
               </h2>
-              <Button className="bg-neon-green hover:bg-neon-green-glow text-cinema-dark rounded-full px-8 shadow-neon">
-                <Play className="w-5 h-5 mr-2" />
+              <Button className="bg-neon-green hover:bg-neon-green-glow text-cinema-dark rounded-full px-4 sm:px-6 lg:px-8 py-2 lg:py-3 shadow-neon text-sm sm:text-base">
+                <Play className="w-4 h-4 lg:w-5 lg:h-5 mr-2" />
                 Watch the trailer
               </Button>
             </div>
