@@ -1,4 +1,5 @@
 import { Home, Heart, Gift, Utensils, Bell, LogOut, Plus, User } from "lucide-react";
+import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -11,6 +12,8 @@ const navigationItems = [
 ];
 
 export function CinemaSidebar() {
+  const { user } = useUser();
+  
   return (
     <div className="w-full lg:w-80 h-auto lg:h-screen bg-cinema-sidebar p-4 lg:p-6 flex flex-col">
       {/* Logo */}
@@ -22,31 +25,69 @@ export function CinemaSidebar() {
       </div>
 
       {/* User Profile Card */}
-      <div className="bg-gradient-card rounded-2xl p-3 lg:p-4 mb-6 lg:mb-8 shadow-card">
-        <div className="flex items-center gap-3 mb-3 lg:mb-4">
-          <Avatar className="w-10 h-10 lg:w-12 lg:h-12">
-            <AvatarImage src="/lovable-uploads/d33775cf-4021-4019-bc26-9117f7ac6a39.png" />
-            <AvatarFallback className="bg-neon-green text-cinema-dark">NT</AvatarFallback>
-          </Avatar>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-cinema-text font-semibold text-sm lg:text-base truncate">Nikitin Team</h3>
-            <p className="text-cinema-text-muted text-xs lg:text-sm truncate">+185 55 65 45 85</p>
+      <SignedIn>
+        <div className="bg-gradient-card rounded-2xl p-3 lg:p-4 mb-6 lg:mb-8 shadow-card">
+          <div className="flex items-center gap-3 mb-3 lg:mb-4">
+            <Avatar className="w-10 h-10 lg:w-12 lg:h-12">
+              <AvatarImage src={user?.imageUrl} />
+              <AvatarFallback className="bg-neon-green text-cinema-dark">
+                {user?.firstName?.charAt(0) || user?.username?.charAt(0) || 'U'}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-cinema-text font-semibold text-sm lg:text-base truncate">
+                {user?.fullName || `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || user?.username || 'User'}
+              </h3>
+              <p className="text-cinema-text-muted text-xs lg:text-sm truncate">
+                {user?.primaryPhoneNumber?.phoneNumber || user?.primaryEmailAddress?.emailAddress || 'No contact info'}
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-cinema-text-muted text-xs">Balance</p>
+              <p className="text-neon-green font-bold text-base lg:text-lg">$56.00</p>
+            </div>
+            <Button 
+              size="sm" 
+              className="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-neon-green hover:bg-neon-green-glow text-cinema-dark shadow-neon flex-shrink-0"
+            >
+              <Plus className="w-3 h-3 lg:w-4 lg:h-4" />
+            </Button>
           </div>
         </div>
-        
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-cinema-text-muted text-xs">Balance</p>
-            <p className="text-neon-green font-bold text-base lg:text-lg">$56.00</p>
+      </SignedIn>
+
+      <SignedOut>
+        <div className="bg-gradient-card rounded-2xl p-3 lg:p-4 mb-6 lg:mb-8 shadow-card">
+          <div className="flex items-center gap-3 mb-3 lg:mb-4">
+            <Avatar className="w-10 h-10 lg:w-12 lg:h-12">
+              <AvatarFallback className="bg-neon-green text-cinema-dark">
+                <User className="w-5 h-5 lg:w-6 lg:h-6" />
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <h3 className="text-cinema-text font-semibold text-sm lg:text-base truncate">Guest User</h3>
+              <p className="text-cinema-text-muted text-xs lg:text-sm truncate">Please sign in</p>
+            </div>
           </div>
-          <Button 
-            size="sm" 
-            className="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-neon-green hover:bg-neon-green-glow text-cinema-dark shadow-neon flex-shrink-0"
-          >
-            <Plus className="w-3 h-3 lg:w-4 lg:h-4" />
-          </Button>
+          
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-cinema-text-muted text-xs">Balance</p>
+              <p className="text-neon-green font-bold text-base lg:text-lg">$0.00</p>
+            </div>
+            <Button 
+              size="sm" 
+              className="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-neon-green hover:bg-neon-green-glow text-cinema-dark shadow-neon flex-shrink-0"
+              disabled
+            >
+              <Plus className="w-3 h-3 lg:w-4 lg:h-4" />
+            </Button>
+          </div>
         </div>
-      </div>
+      </SignedOut>
 
       {/* Navigation Menu */}
       <nav className="flex-1 space-y-1 lg:space-y-2">
