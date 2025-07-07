@@ -49,7 +49,7 @@ const Favourites = () => {
   return (
     <div className="min-h-screen bg-gradient-main pb-20 lg:pb-0">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-cinema-sidebar/80 backdrop-blur-md border-b border-cinema-card">
+      <div className="sticky top-0 z-10 glass-strong border-b border-cinema-card">
         <div className="flex items-center gap-4 p-4 lg:p-6">
           <Link to="/">
             <Button variant="ghost" size="icon" className="text-cinema-text hover:bg-cinema-card">
@@ -64,7 +64,7 @@ const Favourites = () => {
         {favouriteMovies.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {favouriteMovies.map((movie) => (
-              <Card key={movie.id} className="bg-gradient-card border-0 shadow-card hover:shadow-glow transition-all duration-300 group">
+              <Card key={movie.id} className="glass-card border-0 shadow-card hover:shadow-glow transition-all duration-300 group">
                 <CardContent className="p-0">
                   <div className="relative aspect-[3/4] bg-cinema-card rounded-t-lg overflow-hidden">
                     <img 

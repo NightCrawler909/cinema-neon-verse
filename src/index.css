@@ -56,6 +56,12 @@ All colors MUST be HSL.
     --shadow-neon: 0 0 20px hsl(75 100% 75% / 0.3);
     --shadow-card: 0 8px 32px hsl(220 27% 5% / 0.5);
     --shadow-glow: 0 0 40px hsl(75 100% 75% / 0.2);
+    
+    /* Glassmorphism */
+    --glass-bg: hsla(220, 20%, 8%, 0.15);
+    --glass-border: hsla(0, 0%, 100%, 0.1);
+    --glass-sidebar: hsla(220, 25%, 6%, 0.2);
+    --glass-card: hsla(220, 20%, 8%, 0.2);
 
     --radius: 1rem;
 
@@ -118,6 +124,12 @@ All colors MUST be HSL.
     --shadow-neon: 0 0 20px hsl(75 100% 45% / 0.3);
     --shadow-card: 0 8px 32px hsl(220 15% 85% / 0.3);
     --shadow-glow: 0 0 40px hsl(75 100% 45% / 0.2);
+    
+    /* Glassmorphism for light theme */
+    --glass-bg: hsla(0, 0%, 100%, 0.15);
+    --glass-border: hsla(220, 15%, 15%, 0.1);
+    --glass-sidebar: hsla(220, 15%, 98%, 0.2);
+    --glass-card: hsla(0, 0%, 100%, 0.2);
   }
 
   .dark {
@@ -166,5 +178,34 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Glassmorphism utility classes */
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-sidebar {
+    background: var(--glass-sidebar);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-card {
+    background: var(--glass-card);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-strong {
+    background: hsla(220, 20%, 8%, 0.3);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border);
   }
 }

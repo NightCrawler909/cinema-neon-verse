@@ -15,7 +15,7 @@ export function BottomNavigation() {
   
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden">
-      <div className="bg-cinema-sidebar/95 backdrop-blur-md border-t border-cinema-card">
+      <div className="glass-strong border-t border-cinema-card">
         <div className="flex items-center justify-around py-2">
           {navigationItems.map((item) => {
             const isActive = location.pathname === item.path;

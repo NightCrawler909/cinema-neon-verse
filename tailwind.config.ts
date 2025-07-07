@@ -73,6 +73,12 @@ export default {
 				neon: {
 					'green': 'hsl(var(--neon-green))',
 					'green-glow': 'hsl(var(--neon-green-glow))'
+				},
+				glass: {
+					'bg': 'var(--glass-bg)',
+					'border': 'var(--glass-border)',
+					'sidebar': 'var(--glass-sidebar)',
+					'card': 'var(--glass-card)'
 				}
 			},
 			backgroundImage: {

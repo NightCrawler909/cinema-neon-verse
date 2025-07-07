@@ -47,7 +47,7 @@ const MyBookings = () => {
   return (
     <div className="min-h-screen bg-gradient-main pb-20 lg:pb-0">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-cinema-sidebar/80 backdrop-blur-md border-b border-cinema-card">
+      <div className="sticky top-0 z-10 glass-strong border-b border-cinema-card">
         <div className="flex items-center gap-4 p-4 lg:p-6">
           <Link to="/">
             <Button variant="ghost" size="icon" className="text-cinema-text hover:bg-cinema-card">
@@ -64,7 +64,7 @@ const MyBookings = () => {
           <h2 className="text-lg lg:text-xl font-semibold text-cinema-text mb-4">Upcoming Shows</h2>
           <div className="space-y-4">
             {upcomingBookings.map((booking) => (
-              <Card key={booking.id} className="bg-gradient-card border-0 shadow-card">
+              <Card key={booking.id} className="glass-card border-0 shadow-card">
                 <CardContent className="p-4 lg:p-6">
                   <div className="flex gap-4">
                     <div className="w-16 h-20 lg:w-20 lg:h-24 rounded-lg overflow-hidden flex-shrink-0">
@@ -128,7 +128,7 @@ const MyBookings = () => {
           <h2 className="text-lg lg:text-xl font-semibold text-cinema-text mb-4">Past Shows</h2>
           <div className="space-y-4">
             {pastBookings.map((booking) => (
-              <Card key={booking.id} className="bg-gradient-card border-0 shadow-card opacity-75">
+              <Card key={booking.id} className="glass-card border-0 shadow-card opacity-75">
                 <CardContent className="p-4 lg:p-6">
                   <div className="flex gap-4">
                     <div className="w-16 h-20 lg:w-20 lg:h-24 rounded-lg overflow-hidden flex-shrink-0">

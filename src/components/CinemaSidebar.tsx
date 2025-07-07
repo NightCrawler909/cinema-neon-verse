@@ -21,7 +21,7 @@ export function CinemaSidebar({ theme, toggleTheme }: {
   const location = useLocation();
   
   return (
-    <div className="h-screen bg-cinema-sidebar p-6 flex flex-col transition-all duration-300 ease-in-out w-80 flex-shrink-0">
+    <div className="h-screen glass-sidebar p-6 flex flex-col transition-all duration-300 ease-in-out w-80 flex-shrink-0">
       {/* Header with Logo */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-3">
@@ -36,7 +36,7 @@ export function CinemaSidebar({ theme, toggleTheme }: {
 
       {/* User Profile Card */}
       <SignedIn>
-        <div className="bg-gradient-card rounded-2xl p-4 mb-8 shadow-card">
+        <div className="glass-card rounded-2xl p-4 mb-8 shadow-card">
           <div className="flex items-center gap-3 mb-4">
             <Avatar className="w-12 h-12 flex-shrink-0">
               <AvatarImage src={user?.imageUrl} />
@@ -70,7 +70,7 @@ export function CinemaSidebar({ theme, toggleTheme }: {
       </SignedIn>
 
       <SignedOut>
-        <div className="bg-gradient-card rounded-2xl p-4 mb-8 shadow-card">
+        <div className="glass-card rounded-2xl p-4 mb-8 shadow-card">
           <div className="flex items-center gap-3 mb-4">
             <Avatar className="w-12 h-12 flex-shrink-0">
               <AvatarFallback className="bg-neon-green text-cinema-dark">

@@ -91,7 +91,7 @@ const FoodAndDrinks = () => {
   return (
     <div className="min-h-screen bg-gradient-main pb-20 lg:pb-0">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-cinema-sidebar/80 backdrop-blur-md border-b border-cinema-card">
+      <div className="sticky top-0 z-10 glass-strong border-b border-cinema-card">
         <div className="flex items-center gap-4 p-4 lg:p-6">
           <Link to="/">
             <Button variant="ghost" size="icon" className="text-cinema-text hover:bg-cinema-card">
@@ -132,7 +132,7 @@ const FoodAndDrinks = () => {
         {/* Food Items Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item) => (
-            <Card key={item.id} className="bg-gradient-card border-0 shadow-card hover:shadow-glow transition-all duration-300 group">
+            <Card key={item.id} className="glass-card border-0 shadow-card hover:shadow-glow transition-all duration-300 group">
               <CardContent className="p-0">
                 <div className="aspect-[4/3] bg-cinema-card rounded-t-lg overflow-hidden">
                   <img 
@@ -204,7 +204,7 @@ const FoodAndDrinks = () => {
         {/* Cart Summary */}
         {Object.keys(cart).length > 0 && (
           <div className="fixed bottom-20 lg:bottom-6 left-4 right-4 lg:left-auto lg:right-6 lg:w-80">
-            <Card className="bg-gradient-card border-0 shadow-glow">
+            <Card className="glass-card border-0 shadow-glow">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-cinema-text">Cart Total</span>

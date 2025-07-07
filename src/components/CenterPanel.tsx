@@ -54,7 +54,7 @@ export function CenterPanel({ theme, toggleTheme }: {
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cinema-text-muted w-5 h-5" />
           <Input 
             placeholder="Type to Search..."
-            className="w-full sm:w-80 lg:w-96 xl:w-[500px] bg-cinema-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
+            className="w-full sm:w-80 lg:w-96 xl:w-[500px] glass-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
           />
         </div>
         
@@ -120,7 +120,7 @@ export function CenterPanel({ theme, toggleTheme }: {
         {movies.map((movie) => (
           <div 
             key={movie.id}
-            className="bg-gradient-card rounded-2xl overflow-hidden shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 cursor-pointer"
+            className="glass-card rounded-2xl overflow-hidden shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 cursor-pointer"
           >
             <div className="aspect-[3/4] bg-cinema-card relative">
               <img 

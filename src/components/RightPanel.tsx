@@ -31,11 +31,11 @@ export function RightPanel({ theme, toggleTheme }: { theme: string; toggleTheme:
   const selectedSeats = ['B7', 'B8'];
   
   return (
-    <div className="w-96 h-screen bg-cinema-sidebar p-6 overflow-y-auto flex-shrink-0">
+    <div className="w-96 h-screen glass-sidebar p-6 overflow-y-auto flex-shrink-0">
       {/* Movie Booking Header */}
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-16 h-20 bg-gradient-card rounded-lg overflow-hidden flex-shrink-0">
+          <div className="w-16 h-20 glass-card rounded-lg overflow-hidden flex-shrink-0">
             <img 
               src="/lovable-uploads/d33775cf-4021-4019-bc26-9117f7ac6a39.png" 
               alt="Mavka"
@@ -65,7 +65,7 @@ export function RightPanel({ theme, toggleTheme }: { theme: string; toggleTheme:
       {/* Seat Selection */}
       <div className="mb-8">
         <h4 className="text-cinema-text font-semibold mb-4 text-base">Select Seats</h4>
-        <div className="bg-gradient-card rounded-xl p-4 shadow-card">
+        <div className="glass-card rounded-xl p-4 shadow-card">
           {/* Screen indicator */}
           <div className="w-full h-2 bg-neon-green rounded-full mb-6 opacity-50"></div>
           
@@ -98,7 +98,7 @@ export function RightPanel({ theme, toggleTheme }: { theme: string; toggleTheme:
 
       {/* Booking Summary */}
       <div className="mb-8">
-        <div className="bg-gradient-card rounded-xl p-4 shadow-card">
+        <div className="glass-card rounded-xl p-4 shadow-card">
           <h4 className="text-cinema-text font-semibold mb-4 text-base">Mavka: Forest Song</h4>
           <div className="text-cinema-text-muted text-sm mb-2">21th Mar, 10:30</div>
           <div className="flex justify-between items-center mb-4">
@@ -126,7 +126,7 @@ export function RightPanel({ theme, toggleTheme }: { theme: string; toggleTheme:
         <h4 className="text-cinema-text font-semibold mb-4 text-base">Food and Drinks</h4>
         <div className="space-y-4">
           {foodItems.map((item) => (
-            <div key={item.id} className="bg-gradient-card rounded-xl p-4 shadow-card">
+            <div key={item.id} className="glass-card rounded-xl p-4 shadow-card">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-16 h-16 bg-cinema-card rounded-lg overflow-hidden flex-shrink-0">
                   <img 
