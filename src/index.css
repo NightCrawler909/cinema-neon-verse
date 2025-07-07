@@ -47,8 +47,16 @@ All colors MUST be HSL.
     --cinema-text-muted: 0 0% 60%;
     --cinema-sidebar: 220 25% 6%;
     
-    /* Gradients */
-    --gradient-main: linear-gradient(135deg, hsl(220, 27%, 5%) 0%, hsl(220, 30%, 8%) 50%, hsl(220, 25%, 6%) 100%);
+    /* Aesthetic Gradients */
+    --gradient-main: linear-gradient(135deg, 
+      hsl(220, 50%, 8%) 0%, 
+      hsl(260, 60%, 12%) 15%, 
+      hsl(280, 70%, 15%) 30%, 
+      hsl(300, 80%, 18%) 45%, 
+      hsl(320, 70%, 20%) 60%, 
+      hsl(340, 60%, 15%) 75%, 
+      hsl(220, 50%, 8%) 100%
+    );
     --gradient-card: linear-gradient(145deg, hsl(220, 20%, 8%) 0%, hsl(220, 18%, 10%) 100%);
     --gradient-neon: linear-gradient(90deg, hsl(75, 100%, 75%) 0%, hsl(75, 100%, 85%) 100%);
     
@@ -58,10 +66,10 @@ All colors MUST be HSL.
     --shadow-glow: 0 0 40px hsl(75 100% 75% / 0.2);
     
     /* Glassmorphism */
-    --glass-bg: hsla(220, 20%, 8%, 0.15);
+    --glass-bg: hsla(220, 20%, 8%, 0.12);
     --glass-border: hsla(0, 0%, 100%, 0.1);
-    --glass-sidebar: hsla(220, 25%, 6%, 0.2);
-    --glass-card: hsla(220, 20%, 8%, 0.2);
+    --glass-sidebar: hsla(220, 25%, 6%, 0.15);
+    --glass-card: hsla(220, 20%, 8%, 0.18);
 
     --radius: 1rem;
 
@@ -115,8 +123,16 @@ All colors MUST be HSL.
     --cinema-text-muted: 0 0% 45%;
     --cinema-sidebar: 220 15% 98%;
     
-    /* Light theme gradients */
-    --gradient-main: linear-gradient(135deg, hsl(0, 0%, 98%) 0%, hsl(220, 15%, 96%) 50%, hsl(220, 15%, 98%) 100%);
+    /* Light theme aesthetic gradients */
+    --gradient-main: linear-gradient(135deg, 
+      hsl(200, 30%, 95%) 0%, 
+      hsl(220, 40%, 92%) 15%, 
+      hsl(240, 50%, 90%) 30%, 
+      hsl(260, 60%, 88%) 45%, 
+      hsl(280, 50%, 90%) 60%, 
+      hsl(300, 40%, 92%) 75%, 
+      hsl(200, 30%, 95%) 100%
+    );
     --gradient-card: linear-gradient(145deg, hsl(0, 0%, 100%) 0%, hsl(220, 15%, 98%) 100%);
     --gradient-neon: linear-gradient(90deg, hsl(75, 100%, 45%) 0%, hsl(75, 100%, 55%) 100%);
     
@@ -126,10 +142,10 @@ All colors MUST be HSL.
     --shadow-glow: 0 0 40px hsl(75 100% 45% / 0.2);
     
     /* Glassmorphism for light theme */
-    --glass-bg: hsla(0, 0%, 100%, 0.15);
+    --glass-bg: hsla(0, 0%, 100%, 0.12);
     --glass-border: hsla(220, 15%, 15%, 0.1);
-    --glass-sidebar: hsla(220, 15%, 98%, 0.2);
-    --glass-card: hsla(0, 0%, 100%, 0.2);
+    --glass-sidebar: hsla(220, 15%, 98%, 0.15);
+    --glass-card: hsla(0, 0%, 100%, 0.18);
   }
 
   .dark {
@@ -178,34 +194,219 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  /* Animated gradient background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-main);
+    z-index: -1;
+    animation: gradientShift 15s ease-in-out infinite;
+  }
+  
+  /* Additional floating gradient orbs for more depth */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle at 20% 30%, 
+      hsla(280, 100%, 70%, 0.15) 0%, 
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 70%, 
+      hsla(320, 100%, 60%, 0.12) 0%, 
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 80%, 
+      hsla(260, 100%, 80%, 0.1) 0%, 
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 20%, 
+      hsla(300, 100%, 65%, 0.08) 0%, 
+      transparent 50%
+    );
+    z-index: -1;
+    animation: floatingOrbs 20s ease-in-out infinite;
   }
   
   /* Glassmorphism utility classes */
   .glass {
     background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
     border: 1px solid var(--glass-border);
   }
   
   .glass-sidebar {
     background: var(--glass-sidebar);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
     border: 1px solid var(--glass-border);
   }
   
   .glass-card {
     background: var(--glass-card);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid var(--glass-border);
   }
   
   .glass-strong {
-    background: hsla(220, 20%, 8%, 0.3);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    background: hsla(220, 20%, 8%, 0.25);
+    backdrop-filter: blur(35px) saturate(180%);
+    -webkit-backdrop-filter: blur(35px) saturate(180%);
     border: 1px solid var(--glass-border);
+  }
+  
+  /* Gradient animation keyframes */
+  @keyframes gradientShift {
+    0%, 100% {
+      background: linear-gradient(135deg, 
+        hsl(220, 50%, 8%) 0%, 
+        hsl(260, 60%, 12%) 15%, 
+        hsl(280, 70%, 15%) 30%, 
+        hsl(300, 80%, 18%) 45%, 
+        hsl(320, 70%, 20%) 60%, 
+        hsl(340, 60%, 15%) 75%, 
+        hsl(220, 50%, 8%) 100%
+      );
+    }
+    25% {
+      background: linear-gradient(135deg, 
+        hsl(240, 60%, 10%) 0%, 
+        hsl(280, 70%, 14%) 15%, 
+        hsl(300, 80%, 17%) 30%, 
+        hsl(320, 90%, 20%) 45%, 
+        hsl(340, 80%, 22%) 60%, 
+        hsl(360, 70%, 17%) 75%, 
+        hsl(240, 60%, 10%) 100%
+      );
+    }
+    50% {
+      background: linear-gradient(135deg, 
+        hsl(260, 70%, 12%) 0%, 
+        hsl(300, 80%, 16%) 15%, 
+        hsl(320, 90%, 19%) 30%, 
+        hsl(340, 100%, 22%) 45%, 
+        hsl(360, 90%, 24%) 60%, 
+        hsl(20, 80%, 19%) 75%, 
+        hsl(260, 70%, 12%) 100%
+      );
+    }
+    75% {
+      background: linear-gradient(135deg, 
+        hsl(280, 80%, 14%) 0%, 
+        hsl(320, 90%, 18%) 15%, 
+        hsl(340, 100%, 21%) 30%, 
+        hsl(360, 110%, 24%) 45%, 
+        hsl(20, 100%, 26%) 60%, 
+        hsl(40, 90%, 21%) 75%, 
+        hsl(280, 80%, 14%) 100%
+      );
+    }
+  }
+  
+  @keyframes floatingOrbs {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    25% {
+      transform: translate(-20px, -30px) rotate(90deg) scale(1.1);
+    }
+    50% {
+      transform: translate(30px, -20px) rotate(180deg) scale(0.9);
+    }
+    75% {
+      transform: translate(-10px, 40px) rotate(270deg) scale(1.05);
+    }
+  }
+  
+  /* Light theme animations */
+  .theme-light body::before {
+    animation: gradientShiftLight 15s ease-in-out infinite;
+  }
+  
+  .theme-light body::after {
+    background: radial-gradient(
+      circle at 20% 30%, 
+      hsla(200, 80%, 70%, 0.08) 0%, 
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 70%, 
+      hsla(240, 70%, 60%, 0.06) 0%, 
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 80%, 
+      hsla(260, 60%, 80%, 0.05) 0%, 
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 20%, 
+      hsla(280, 50%, 65%, 0.04) 0%, 
+      transparent 50%
+    );
+  }
+  
+  @keyframes gradientShiftLight {
+    0%, 100% {
+      background: linear-gradient(135deg, 
+        hsl(200, 30%, 95%) 0%, 
+        hsl(220, 40%, 92%) 15%, 
+        hsl(240, 50%, 90%) 30%, 
+        hsl(260, 60%, 88%) 45%, 
+        hsl(280, 50%, 90%) 60%, 
+        hsl(300, 40%, 92%) 75%, 
+        hsl(200, 30%, 95%) 100%
+      );
+    }
+    25% {
+      background: linear-gradient(135deg, 
+        hsl(220, 40%, 93%) 0%, 
+        hsl(240, 50%, 90%) 15%, 
+        hsl(260, 60%, 88%) 30%, 
+        hsl(280, 70%, 86%) 45%, 
+        hsl(300, 60%, 88%) 60%, 
+        hsl(320, 50%, 90%) 75%, 
+        hsl(220, 40%, 93%) 100%
+      );
+    }
+    50% {
+      background: linear-gradient(135deg, 
+        hsl(240, 50%, 91%) 0%, 
+        hsl(260, 60%, 88%) 15%, 
+        hsl(280, 70%, 86%) 30%, 
+        hsl(300, 80%, 84%) 45%, 
+        hsl(320, 70%, 86%) 60%, 
+        hsl(340, 60%, 88%) 75%, 
+        hsl(240, 50%, 91%) 100%
+      );
+    }
+    75% {
+      background: linear-gradient(135deg, 
+        hsl(260, 60%, 89%) 0%, 
+        hsl(280, 70%, 86%) 15%, 
+        hsl(300, 80%, 84%) 30%, 
+        hsl(320, 90%, 82%) 45%, 
+        hsl(340, 80%, 84%) 60%, 
+        hsl(360, 70%, 86%) 75%, 
+        hsl(260, 60%, 89%) 100%
+      );
+    }
   }
 }
