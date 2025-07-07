@@ -2,14 +2,15 @@ import { Home, Heart, Gift, Utensils, Bell, LogOut, Plus, User, Calendar, X } fr
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link, useLocation } from "react-router-dom";
 
 const navigationItems = [
-  { icon: Home, label: "Home", active: true },
-  { icon: Calendar, label: "My Bookings", active: false },
-  { icon: Heart, label: "Favorite", active: false },
-  { icon: Gift, label: "Bonuses", active: false },
-  { icon: Utensils, label: "Food And Drinks", active: false },
-  { icon: Bell, label: "Reminder", active: false, badge: "3" },
+  { icon: Home, label: "Home", path: "/" },
+  { icon: Calendar, label: "My Bookings", path: "/bookings" },
+  { icon: Heart, label: "Favorite", path: "/favourites" },
+  { icon: Gift, label: "Bonuses", path: "#", badge: "Coming Soon" },
+  { icon: Utensils, label: "Food And Drinks", path: "/food-drinks" },
+  { icon: Bell, label: "Reminder", path: "#", badge: "3" },
 ];
 
 export function CinemaSidebar({ theme, toggleTheme }: { 
@@ -17,6 +18,7 @@ export function CinemaSidebar({ theme, toggleTheme }: {
   toggleTheme: () => void; 
 }) {
   const { user } = useUser();
+  const location = useLocation();
   
   return (
     <div className="h-screen bg-cinema-sidebar p-6 flex flex-col transition-all duration-300 ease-in-out w-80 flex-shrink-0">
@@ -100,30 +102,63 @@ export function CinemaSidebar({ theme, toggleTheme }: {
       {/* Navigation Menu */}
       <nav className="flex-1 space-y-2">
         {navigationItems.map((item) => (
-          <button
-            key={item.label}
-            className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-300 text-base ${
-              item.active 
-                ? "bg-neon-green text-cinema-dark shadow-neon" 
-                : "text-cinema-text-muted hover:text-cinema-text hover:bg-cinema-card-hover"
-            }`}
-          >
-            <item.icon className="w-5 h-5 flex-shrink-0" />
-            <span className="font-medium truncate">
-              {item.label}
-            </span>
-            {item.badge && (
-              <span className="ml-auto bg-neon-green text-cinema-dark text-xs px-2 py-1 rounded-full flex-shrink-0">
-                {item.badge}
+          const isActive = location.pathname === item.path;
+          const isDisabled = item.path === "#";
+          
+          if (isDisabled) {
+            return (
+              <div
+                key={item.label}
+                className="w-full flex items-center gap-3 p-3 rounded-xl text-base text-cinema-text-muted opacity-50 cursor-not-allowed"
+              >
+                <item.icon className="w-5 h-5 flex-shrink-0" />
+                <span className="font-medium truncate">
+                  {item.label}
+                </span>
+                {item.badge && (
+                  <span className="ml-auto bg-cinema-text-muted text-cinema-dark text-xs px-2 py-1 rounded-full flex-shrink-0">
+                    {item.badge}
+                  </span>
+                )}
+              </div>
+            );
+          }
+          
+          return (
+            <Link
+              key={item.label}
+              to={item.path}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-300 text-base hover:scale-105 ${
+                isActive 
+                  ? "bg-neon-green text-cinema-dark shadow-neon" 
+                  : "text-cinema-text-muted hover:text-cinema-text hover:bg-cinema-card-hover"
+              }`}
+            >
+              <item.icon className="w-5 h-5 flex-shrink-0" />
+              <span className="font-medium truncate">
+                {item.label}
               </span>
-            )}
-          </button>
-        ))}
+              {item.badge && (
+                <span className={`ml-auto text-xs px-2 py-1 rounded-full flex-shrink-0 ${
+                  isActive 
+                    ? "bg-cinema-dark text-neon-green" 
+                    : "bg-neon-green text-cinema-dark"
+                }`}>
+                  {item.badge}
+                </span>
+              )}
+            </Link>
+          );
+        })}
       </nav>
 
       {/* Logout Button */}
       <button 
         className="flex items-center gap-3 p-3 text-cinema-text-muted hover:text-cinema-text transition-colors text-base"
+        onClick={() => {
+          // Add logout functionality here if needed
+          console.log("Logout clicked");
+        }}
       >
         <LogOut className="w-5 h-5 flex-shrink-0" />
         <span className="font-medium">
