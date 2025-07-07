@@ -101,7 +101,7 @@ export function CinemaSidebar({ theme, toggleTheme }: {
 
       {/* Navigation Menu */}
       <nav className="flex-1 space-y-2">
-        {navigationItems.map((item) => (
+        {navigationItems.map((item) => {
           const isActive = location.pathname === item.path;
           const isDisabled = item.path === "#";
           
