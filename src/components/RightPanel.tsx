@@ -27,7 +27,7 @@ const foodItems = [
   }
 ];
 
-export function RightPanel() {
+export function RightPanel({ theme, toggleTheme }: { theme: string; toggleTheme: () => void }) {
   const selectedSeats = ['B7', 'B8'];
   
   return (

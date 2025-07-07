@@ -1,4 +1,4 @@
-import { Search, Play, Star, User } from "lucide-react";
+import { Search, Play, Star, User, Sun, Moon, Menu } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from '@clerk/clerk-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,7 +38,10 @@ const movies = [
   }
 ];
 
-export function CenterPanel() {
+export function CenterPanel({ theme, toggleTheme }: { 
+  theme: string; 
+  toggleTheme: () => void; 
+}) {
   const { user } = useUser();
   
   return (
@@ -49,12 +52,19 @@ export function CenterPanel() {
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cinema-text-muted w-5 h-5" />
           <Input 
             placeholder="Type to Search..."
-            className="w-full sm:w-80 bg-cinema-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
+            className="w-full sm:w-80 lg:w-96 xl:w-[500px] bg-cinema-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
           />
         </div>
         
-        {/* User Authentication Section */}
+        {/* Theme Switcher and User Authentication Section */}
         <div className="flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className="rounded-full p-2 border border-neon-green bg-transparent hover:bg-neon-green hover:text-cinema-dark transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
           <SignedOut>
             <SignInButton>
               <Button variant="outline" className="border-neon-green text-neon-green hover:bg-neon-green hover:text-cinema-dark">

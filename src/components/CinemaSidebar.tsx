@@ -1,34 +1,42 @@
-import { Home, Heart, Gift, Utensils, Bell, LogOut, Plus, User } from "lucide-react";
+import { Home, Heart, Gift, Utensils, Bell, LogOut, Plus, User, Calendar, X } from "lucide-react";
 import { SignedIn, SignedOut, useUser } from '@clerk/clerk-react';
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navigationItems = [
   { icon: Home, label: "Home", active: true },
+  { icon: Calendar, label: "My Bookings", active: false },
   { icon: Heart, label: "Favorite", active: false },
   { icon: Gift, label: "Bonuses", active: false },
   { icon: Utensils, label: "Food And Drinks", active: false },
   { icon: Bell, label: "Reminder", active: false, badge: "3" },
 ];
 
-export function CinemaSidebar() {
+export function CinemaSidebar({ theme, toggleTheme }: { 
+  theme: string; 
+  toggleTheme: () => void; 
+}) {
   const { user } = useUser();
   
   return (
-    <div className="w-full lg:w-80 h-auto lg:h-screen bg-cinema-sidebar p-4 lg:p-6 flex flex-col">
-      {/* Logo */}
-      <div className="flex items-center gap-3 mb-6 lg:mb-8">
-        <div className="w-8 h-8 bg-neon-green rounded-lg flex items-center justify-center">
-          <span className="text-cinema-dark font-bold">🐸</span>
+    <div className="h-auto lg:h-screen bg-cinema-sidebar p-4 lg:p-6 flex flex-col transition-all duration-300 ease-in-out w-full lg:w-80">
+      {/* Header with Logo */}
+      <div className="flex items-center justify-between mb-6 lg:mb-8">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 bg-neon-green rounded-lg flex items-center justify-center flex-shrink-0">
+            <span className="text-cinema-dark font-bold">🐸</span>
+          </div>
+          <h1 className="text-cinema-text text-lg lg:text-xl font-bold">
+            CINEMACITY
+          </h1>
         </div>
-        <h1 className="text-cinema-text text-lg lg:text-xl font-bold">CINEMACITY</h1>
       </div>
 
       {/* User Profile Card */}
       <SignedIn>
         <div className="bg-gradient-card rounded-2xl p-3 lg:p-4 mb-6 lg:mb-8 shadow-card">
           <div className="flex items-center gap-3 mb-3 lg:mb-4">
-            <Avatar className="w-10 h-10 lg:w-12 lg:h-12">
+            <Avatar className="w-10 h-10 lg:w-12 lg:h-12 flex-shrink-0">
               <AvatarImage src={user?.imageUrl} />
               <AvatarFallback className="bg-neon-green text-cinema-dark">
                 {user?.firstName?.charAt(0) || user?.username?.charAt(0) || 'U'}
@@ -62,7 +70,7 @@ export function CinemaSidebar() {
       <SignedOut>
         <div className="bg-gradient-card rounded-2xl p-3 lg:p-4 mb-6 lg:mb-8 shadow-card">
           <div className="flex items-center gap-3 mb-3 lg:mb-4">
-            <Avatar className="w-10 h-10 lg:w-12 lg:h-12">
+            <Avatar className="w-10 h-10 lg:w-12 lg:h-12 flex-shrink-0">
               <AvatarFallback className="bg-neon-green text-cinema-dark">
                 <User className="w-5 h-5 lg:w-6 lg:h-6" />
               </AvatarFallback>
@@ -101,7 +109,9 @@ export function CinemaSidebar() {
             }`}
           >
             <item.icon className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" />
-            <span className="font-medium truncate">{item.label}</span>
+            <span className="font-medium truncate">
+              {item.label}
+            </span>
             {item.badge && (
               <span className="ml-auto bg-neon-green text-cinema-dark text-xs px-1.5 lg:px-2 py-0.5 lg:py-1 rounded-full flex-shrink-0">
                 {item.badge}
@@ -112,9 +122,13 @@ export function CinemaSidebar() {
       </nav>
 
       {/* Logout Button */}
-      <button className="flex items-center gap-2 lg:gap-3 p-2 lg:p-3 text-cinema-text-muted hover:text-cinema-text transition-colors text-sm lg:text-base">
+      <button 
+        className="flex items-center gap-2 lg:gap-3 p-2 lg:p-3 text-cinema-text-muted hover:text-cinema-text transition-colors text-sm lg:text-base"
+      >
         <LogOut className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" />
-        <span className="font-medium">Logout</span>
+        <span className="font-medium">
+          Logout
+        </span>
       </button>
     </div>
   );
