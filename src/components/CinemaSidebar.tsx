@@ -55,7 +55,7 @@ export function CinemaSidebar({ theme, toggleTheme }: {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-cinema-text-muted text-xs">Balance</p>
-              <p className="text-neon-green font-bold text-base lg:text-lg">$56.00</p>
+              <p className="text-neon-green font-bold text-base lg:text-lg">₹56.00</p>
             </div>
             <Button 
               size="sm" 
@@ -84,7 +84,7 @@ export function CinemaSidebar({ theme, toggleTheme }: {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-cinema-text-muted text-xs">Balance</p>
-              <p className="text-neon-green font-bold text-base lg:text-lg">$0.00</p>
+              <p className="text-neon-green font-bold text-base lg:text-lg">₹0.00</p>
             </div>
             <Button 
               size="sm" 

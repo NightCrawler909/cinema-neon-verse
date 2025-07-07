@@ -15,14 +15,14 @@ const foodItems = [
     id: 1,
     name: "Popcorn & Cola",
     description: "Soft medium",
-    price: 10,
+    price: 250,
     image: popcornCola
   },
   {
     id: 2,
     name: "Popcorn & Crisps", 
     description: "Cheese medium",
-    price: 12,
+    price: 300,
     image: popcornCrisps
   }
 ];
@@ -113,7 +113,7 @@ export function RightPanel({ theme, toggleTheme }: { theme: string; toggleTheme:
           </div>
           
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3 lg:gap-4">
-            <span className="text-cinema-text text-xl lg:text-2xl font-bold">$26</span>
+            <span className="text-cinema-text text-xl lg:text-2xl font-bold">₹2600</span>
             <Button className="bg-neon-green hover:bg-neon-green-glow text-cinema-dark rounded-full px-4 lg:px-6 py-2 shadow-neon text-sm lg:text-base w-full sm:w-auto">
               Buy tickets
             </Button>
@@ -141,7 +141,7 @@ export function RightPanel({ theme, toggleTheme }: { theme: string; toggleTheme:
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
-                <span className="text-cinema-text font-bold text-sm lg:text-base">${item.price}</span>
+                <span className="text-cinema-text font-bold text-sm lg:text-base">₹{item.price}</span>
                 <Button 
                   size="sm" 
                   className="bg-neon-green hover:bg-neon-green-glow text-cinema-dark rounded-full px-3 lg:px-4 py-1.5 lg:py-2 shadow-neon text-xs lg:text-sm w-full sm:w-auto"

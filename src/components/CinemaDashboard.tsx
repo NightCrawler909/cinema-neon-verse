@@ -2,19 +2,13 @@ import React from "react";
 import { CinemaSidebar } from "./CinemaSidebar";
 import { CenterPanel } from "./CenterPanel";
 import { RightPanel } from "./RightPanel";
+import { ThemeProvider, useTheme } from "@/contexts/ThemeContext";
 
-export function CinemaDashboard() {
-  const [theme, setTheme] = React.useState('dark');
-
-  React.useEffect(() => {
-    document.body.classList.remove('theme-dark', 'theme-light');
-    document.body.classList.add(`theme-${theme}`);
-  }, [theme]);
-
-  const toggleTheme = () => setTheme(theme === 'dark' ? 'light' : 'dark');
+function CinemaDashboardContent() {
+  const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row">
+    <div className="min-h-screen flex flex-col lg:flex-row transition-colors duration-300">
       <div className="hidden lg:block">
         <CinemaSidebar theme={theme} toggleTheme={toggleTheme} />
       </div>
@@ -23,5 +17,13 @@ export function CinemaDashboard() {
         <RightPanel theme={theme} toggleTheme={toggleTheme} />
       </div>
     </div>
+  );
+}
+
+export function CinemaDashboard() {
+  return (
+    <ThemeProvider>
+      <CinemaDashboardContent />
+    </ThemeProvider>
   );
 }

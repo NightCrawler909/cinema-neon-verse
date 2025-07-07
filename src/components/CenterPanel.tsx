@@ -2,6 +2,8 @@ import { Search, Play, Star, User, Sun, Moon, Menu } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from '@clerk/clerk-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { BottomNavigation } from "./BottomNavigation";
 import shazamPoster from "@/assets/shazam-poster.jpg";
 import screamPoster from "@/assets/scream-poster.jpg";
 import mascaradePoster from "@/assets/mascarade-poster.jpg";
@@ -58,13 +60,15 @@ export function CenterPanel({ theme, toggleTheme }: {
         
         {/* Theme Switcher and User Authentication Section */}
         <div className="flex items-center gap-4">
-          <button
-            onClick={toggleTheme}
-            className="rounded-full p-2 border border-neon-green bg-transparent hover:bg-neon-green hover:text-cinema-dark transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-          </button>
+          <div className="flex items-center gap-2">
+            <Sun className={`w-4 h-4 ${theme === 'light' ? 'text-neon-green' : 'text-cinema-text-muted'}`} />
+            <Switch
+              checked={theme === 'dark'}
+              onCheckedChange={toggleTheme}
+              className="data-[state=checked]:bg-neon-green data-[state=unchecked]:bg-cinema-card"
+            />
+            <Moon className={`w-4 h-4 ${theme === 'dark' ? 'text-neon-green' : 'text-cinema-text-muted'}`} />
+          </div>
           <SignedOut>
             <SignInButton>
               <Button variant="outline" className="border-neon-green text-neon-green hover:bg-neon-green hover:text-cinema-dark">
@@ -148,6 +152,8 @@ export function CenterPanel({ theme, toggleTheme }: {
           </div>
         ))}
       </div>
+
+      <BottomNavigation />
     </div>
   );
 }
