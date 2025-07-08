@@ -14,6 +14,9 @@ import shazamPoster from "@/assets/shazam-poster.jpg";
 import screamPoster from "@/assets/scream-poster.jpg";
 import mascaradePoster from "@/assets/mascarade-poster.jpg";
 import ritualKillerPoster from "@/assets/ritual-killer-poster.jpg";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 const movies = [
   {
@@ -54,6 +57,69 @@ export function CenterPanel({ theme, toggleTheme }: {
   const [show3DTheater, setShow3DTheater] = useState(false);
   const [currentLocation, setCurrentLocation] = useState({ city: "Mumbai", state: "Maharashtra" });
   
+  // Showtime selector state
+  const [showtimeSelector, setShowtimeSelector] = useState<{ movie: any; anchor: HTMLElement | null } | null>(null);
+  const [selectedTheater, setSelectedTheater] = useState(0);
+  const [selectedLanguage, setSelectedLanguage] = useState<'Hindi' | 'English'>('Hindi');
+  const [selectedFormat, setSelectedFormat] = useState<'2D' | '3D'>('2D');
+  const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null);
+
+  // Mock showtime data
+  const mockShowtimeData = [
+    {
+      name: "INOX Seawoods",
+      distance: "2.1 km",
+      showtimes: {
+        Hindi: {
+          '2D': ["12:30 PM", "6:00 PM"],
+          '3D': ["3:00 PM", "9:00 PM"]
+        },
+        English: {
+          '2D': ["11:00 AM", "7:45 PM"],
+          '3D': ["2:00 PM", "10:00 PM"]
+        }
+      }
+    },
+    {
+      name: "PVR Phoenix Mall",
+      distance: "3.4 km",
+      showtimes: {
+        Hindi: {
+          '2D': ["1:00 PM", "5:30 PM"],
+          '3D': ["4:00 PM", "8:30 PM"]
+        },
+        English: {
+          '2D': ["10:30 AM", "8:00 PM"],
+          '3D': ["1:45 PM", "9:30 PM"]
+        }
+      }
+    },
+    {
+      name: "Cinepolis Fun Republic",
+      distance: "4.7 km",
+      showtimes: {
+        Hindi: {
+          '2D': ["2:15 PM", "7:00 PM"],
+          '3D': ["5:00 PM", "10:00 PM"]
+        },
+        English: {
+          '2D': ["12:00 PM", "6:45 PM"],
+          '3D': ["3:30 PM", "9:15 PM"]
+        }
+      }
+    }
+  ];
+
+  // Reset showtime selection when selector opens
+  useEffect(() => {
+    if (showtimeSelector) {
+      setSelectedTheater(0);
+      setSelectedLanguage('Hindi');
+      setSelectedFormat('2D');
+      setSelectedShowtime(null);
+    }
+  }, [showtimeSelector]);
+
   if (show3DTheater) {
     return <Theater3D onBack={() => setShow3DTheater(false)} />;
   }
@@ -121,19 +187,20 @@ export function CenterPanel({ theme, toggleTheme }: {
       </div>
 
       {/* Mavka Movie + Food & Drinks Horizontal Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 mb-8 lg:mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 mb-8 lg:mb-12 items-stretch">
         {/* Mavka Section (70%) */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 flex flex-col h-full">
           <div 
-            className="relative w-full h-48 sm:h-64 lg:h-80 glass-card rounded-2xl lg:rounded-3xl overflow-hidden shadow-card hover:shadow-glow transition-all duration-300"
+            className="relative w-full h-full min-h-[320px] flex flex-col justify-center glass-card rounded-2xl lg:rounded-3xl overflow-hidden shadow-card hover:shadow-glow transition-all duration-300"
             style={{
               backgroundImage: "url('/lovable-uploads/d33775cf-4021-4019-bc26-9117f7ac6a39.png')",
               backgroundSize: "cover",
-              backgroundPosition: "center"
+              backgroundPosition: "center",
+              height: '100%'
             }}
           >
-            <div className="absolute inset-0 bg-cinema-dark/80">
-              <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-8">
+            <div className="absolute inset-0 bg-cinema-dark/80 flex flex-col justify-center h-full">
+              <div className="flex flex-col justify-center h-full px-4 sm:px-6 lg:px-8 py-8">
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-cinema-text mb-2 sm:mb-3 lg:mb-4">
                   Mavka: Forest Song
                 </h2>
@@ -154,10 +221,11 @@ export function CenterPanel({ theme, toggleTheme }: {
             </div>
           </div>
         </div>
-        
         {/* Food & Drinks Section (30%) */}
-        <div className="lg:col-span-3">
-          <FoodDrinksCard />
+        <div className="lg:col-span-3 flex flex-col h-full">
+          <div className="h-full flex flex-col">
+            <FoodDrinksCard />
+          </div>
         </div>
       </div>
 
@@ -210,7 +278,7 @@ export function CenterPanel({ theme, toggleTheme }: {
                   ))}
                 </div>
                 <Button 
-                  onClick={() => setShow3DTheater(true)}
+                  onClick={e => setShowtimeSelector({ movie, anchor: e.currentTarget })}
                   className="w-full bg-gradient-neon hover:bg-neon-green-glow text-cinema-dark font-semibold rounded-xl"
                   size="sm"
                 >
@@ -221,6 +289,103 @@ export function CenterPanel({ theme, toggleTheme }: {
           ))}
         </div>
       </div>
+
+      {/* Showtime Selector Modal */}
+      <Dialog open={!!showtimeSelector} onOpenChange={open => !open && setShowtimeSelector(null)}>
+        <DialogContent className="max-w-md w-full p-0 bg-cinema-card/80 glass-card rounded-2xl shadow-glow border-0">
+          {showtimeSelector && (
+            <div className="flex flex-col gap-6 p-6">
+              <h3 className="text-xl font-bold text-cinema-text mb-2 flex items-center gap-2">
+                <span className="text-neon-green">🎟️ Showtime Selection</span>
+              </h3>
+              {/* Step 1: Theater */}
+              <div>
+                <div className="text-cinema-text-muted text-sm mb-2">Choose Theater</div>
+                <div className="flex flex-col gap-3">
+                  {mockShowtimeData.map((theater, idx) => (
+                    <button
+                      key={theater.name}
+                      className={cn(
+                        "flex items-center justify-between px-4 py-3 rounded-xl glass-card border border-transparent transition-all duration-200",
+                        idx === selectedTheater ? "border-neon-green shadow-neon bg-cinema-card/90" : "hover:border-neon-green/60 hover:bg-cinema-card/70"
+                      )}
+                      onClick={() => setSelectedTheater(idx)}
+                    >
+                      <span className="text-cinema-text font-medium">{theater.name}</span>
+                      <span className="text-cinema-text-muted text-xs">{theater.distance} away</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* Step 2: Language */}
+              <div>
+                <div className="text-cinema-text-muted text-sm mb-2">Language</div>
+                <div className="flex gap-3">
+                  {["Hindi", "English"].map(lang => (
+                    <button
+                      key={lang}
+                      className={cn(
+                        "px-5 py-2 rounded-full font-semibold text-sm transition-all duration-200",
+                        lang === selectedLanguage ? "bg-neon-green text-cinema-dark shadow-neon scale-105" : "bg-cinema-card text-cinema-text hover:bg-cinema-card-hover"
+                      )}
+                      onClick={() => setSelectedLanguage(lang as 'Hindi' | 'English')}
+                    >
+                      {lang}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* Step 3: Format */}
+              <div>
+                <div className="text-cinema-text-muted text-sm mb-2">Format</div>
+                <div className="flex gap-3">
+                  {["2D", "3D"].map(fmt => (
+                    <button
+                      key={fmt}
+                      className={cn(
+                        "px-5 py-2 rounded-full font-semibold text-sm flex items-center gap-2 transition-all duration-200",
+                        fmt === selectedFormat ? "bg-neon-green text-cinema-dark shadow-neon scale-105" : "bg-cinema-card text-cinema-text hover:bg-cinema-card-hover"
+                      )}
+                      onClick={() => setSelectedFormat(fmt as '2D' | '3D')}
+                    >
+                      {fmt === '3D' ? '🎭' : '🎬'} {fmt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* Step 4: Showtimes */}
+              <div>
+                <div className="text-cinema-text-muted text-sm mb-2">Showtimes</div>
+                <div className="flex flex-wrap gap-3">
+                  {mockShowtimeData[selectedTheater].showtimes[selectedLanguage][selectedFormat].map((time: string) => (
+                    <button
+                      key={time}
+                      className={cn(
+                        "px-4 py-2 rounded-full font-semibold text-sm transition-all duration-200",
+                        time === selectedShowtime ? "bg-neon-green text-cinema-dark shadow-neon scale-105" : "bg-cinema-card text-cinema-text hover:bg-cinema-card-hover"
+                      )}
+                      onClick={() => setSelectedShowtime(time)}
+                    >
+                      {time}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {/* Confirm Button */}
+              <button
+                className="w-full mt-2 py-3 rounded-xl bg-gradient-neon text-cinema-dark font-bold text-lg shadow-neon hover:bg-neon-green-glow transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
+                disabled={!selectedShowtime}
+                onClick={() => {
+                  // TODO: Redirect to seat selection (2D/3D) with selected options
+                  setShowtimeSelector(null);
+                }}
+              >
+                Proceed to Seat Selection
+              </button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <BottomNavigation />
     </div>
