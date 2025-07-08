@@ -191,12 +191,11 @@ export function CenterPanel({ theme, toggleTheme }: {
         {/* Mavka Section (70%) */}
         <div className="lg:col-span-7 flex flex-col h-full">
           <div 
-            className="relative w-full h-full min-h-[320px] flex flex-col justify-center glass-card rounded-2xl lg:rounded-3xl overflow-hidden shadow-card hover:shadow-glow transition-all duration-300"
+            className="relative w-full h-full min-h-[320px] flex flex-col glass-card rounded-2xl lg:rounded-3xl overflow-hidden shadow-card hover:shadow-glow transition-all duration-300"
             style={{
               backgroundImage: "url('/lovable-uploads/d33775cf-4021-4019-bc26-9117f7ac6a39.png')",
               backgroundSize: "cover",
-              backgroundPosition: "center",
-              height: '100%'
+              backgroundPosition: "center"
             }}
           >
             <div className="absolute inset-0 bg-cinema-dark/80 flex flex-col justify-center h-full">
@@ -223,9 +222,7 @@ export function CenterPanel({ theme, toggleTheme }: {
         </div>
         {/* Food & Drinks Section (30%) */}
         <div className="lg:col-span-3 flex flex-col h-full">
-          <div className="h-full flex flex-col">
-            <FoodDrinksCard />
-          </div>
+          <FoodDrinksCard />
         </div>
       </div>
 
