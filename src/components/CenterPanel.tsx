@@ -59,7 +59,7 @@ export function CenterPanel({ theme, toggleTheme }: {
   }
 
   return (
-    <div className="flex-1 p-4 sm:p-6 lg:p-8">
+    <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">{/* Added max-width constraint */}
       {/* Header with Search and Top-Right Elements */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-8">
         {/* Glassmorphic Search Bar */}
@@ -161,17 +161,15 @@ export function CenterPanel({ theme, toggleTheme }: {
         </div>
       </div>
 
-      {/* Nearby Theaters Section */}
-      <div className="mb-12">
+      {/* Nearby Theaters & Trending Movies Side by Side */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-12">
         <NearbyTheatersSection />
-      </div>
-
-      {/* Trending Movies - Full Width */}
-      <div className="mb-12">
-        <h2 className="text-2xl font-bold text-cinema-text mb-6 flex items-center gap-2">
-          🔥 <span className="text-neon-green">Trending</span> Now
-        </h2>
-        <TrendingMoviesSection />
+        <div>
+          <h2 className="text-xl font-bold text-cinema-text mb-6 flex items-center gap-2">
+            🔥 <span className="text-neon-green">Trending</span> Now
+          </h2>
+          <TrendingMoviesSection />
+        </div>
       </div>
 
       {/* All Movies Section */}

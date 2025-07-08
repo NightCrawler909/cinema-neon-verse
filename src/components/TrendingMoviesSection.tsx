@@ -1,7 +1,6 @@
 import { Star, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import shazamPoster from "@/assets/shazam-poster.jpg";
 import screamPoster from "@/assets/scream-poster.jpg";
 import mascaradePoster from "@/assets/mascarade-poster.jpg";
@@ -75,15 +74,16 @@ const trendingMovies = [
 ];
 
 export function TrendingMoviesSection() {
+  // Show only top 3 trending movies
+  const topTrendingMovies = trendingMovies.slice(0, 3);
+  
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-bold text-cinema-text">🔥 Trending Now</h2>
-      <ScrollArea className="w-full whitespace-nowrap">
-        <div className="flex w-max space-x-4 p-1">
-          {trendingMovies.map((movie) => (
+      <div className="grid grid-cols-1 gap-4">
+        {topTrendingMovies.map((movie) => (
             <Card 
               key={movie.id} 
-              className="w-48 glass-card border-0 shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 cursor-pointer relative"
+              className="w-full glass-card border-0 shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 cursor-pointer relative"
             >
               {movie.isHot && (
                 <div className="absolute -top-2 -right-2 bg-gradient-neon text-cinema-dark text-xs font-bold px-2 py-1 rounded-full z-10">
@@ -142,8 +142,6 @@ export function TrendingMoviesSection() {
             </Card>
           ))}
         </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-    </div>
-  );
-}
+      </div>
+    );
+  }
