@@ -162,9 +162,11 @@ export function CenterPanel({ theme, toggleTheme }: {
       </div>
 
       {/* Nearby Theaters & Trending Movies Side by Side */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-12">
-        <NearbyTheatersSection />
-        <div>
+      <div className="flex flex-col xl:flex-row gap-8 mb-12 items-stretch">
+        <div className="flex-1 min-w-0 flex flex-col">
+          <NearbyTheatersSection />
+        </div>
+        <div className="flex-1 min-w-0 flex flex-col">
           <h2 className="text-xl font-bold text-cinema-text mb-6 flex items-center gap-2">
             🔥 <span className="text-neon-green">Trending</span> Now
           </h2>

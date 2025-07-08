@@ -76,72 +76,66 @@ const trendingMovies = [
 export function TrendingMoviesSection() {
   // Show only top 3 trending movies
   const topTrendingMovies = trendingMovies.slice(0, 3);
-  
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 gap-4">
-        {topTrendingMovies.map((movie) => (
-            <Card 
-              key={movie.id} 
-              className="w-full glass-card border-0 shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 cursor-pointer relative"
-            >
-              {movie.isHot && (
-                <div className="absolute -top-2 -right-2 bg-gradient-neon text-cinema-dark text-xs font-bold px-2 py-1 rounded-full z-10">
-                  HOT 🔥
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
+      {topTrendingMovies.map((movie) => (
+        <Card 
+          key={movie.id} 
+          className="w-[200px] md:w-[200px] xl:w-[220px] glass-card border-0 shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 cursor-pointer relative flex flex-col"
+        >
+          {movie.isHot && (
+            <div className="absolute -top-2 -right-2 bg-gradient-neon text-cinema-dark text-xs font-bold px-2 py-1 rounded-full z-10">
+              HOT 🔥
+            </div>
+          )}
+          <CardContent className="p-0 flex-1 flex flex-col">
+            <div className="aspect-[3/4] bg-cinema-card relative rounded-t-xl overflow-hidden">
+              <img 
+                src={movie.poster} 
+                alt={movie.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-cinema-dark/80 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                <Button 
+                  size="sm"
+                  className="bg-neon-green hover:bg-neon-green-glow text-cinema-dark rounded-full shadow-neon"
+                >
+                  <Play className="w-3 h-3 mr-1" />
+                  Trailer
+                </Button>
+              </div>
+            </div>
+            <div className="p-4 space-y-2 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="font-semibold text-cinema-text line-clamp-2 leading-tight mb-1">
+                  {movie.title}
+                </h3>
+                <p className="text-cinema-text-muted text-xs mb-2">
+                  {movie.genre}
+                </p>
+                <div className="flex items-center gap-1 mb-2">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i}
+                      className={`w-3 h-3 ${
+                        i < movie.rating 
+                          ? "text-neon-green fill-neon-green" 
+                          : "text-cinema-text-muted"
+                      }`}
+                    />
+                  ))}
                 </div>
-              )}
-              <CardContent className="p-0">
-                <div className="aspect-[3/4] bg-cinema-card relative rounded-t-xl overflow-hidden">
-                  <img 
-                    src={movie.poster} 
-                    alt={movie.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-cinema-dark/80 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                    <Button 
-                      size="sm"
-                      className="bg-neon-green hover:bg-neon-green-glow text-cinema-dark rounded-full shadow-neon"
-                    >
-                      <Play className="w-3 h-3 mr-1" />
-                      Trailer
-                    </Button>
-                  </div>
-                </div>
-                <div className="p-4 space-y-3">
-                  <h3 className="font-semibold text-cinema-text line-clamp-2 leading-tight">
-                    {movie.title}
-                  </h3>
-                  <p className="text-cinema-text-muted text-sm">
-                    {movie.genre}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i}
-                          className={`w-3 h-3 ${
-                            i < movie.rating 
-                              ? "text-neon-green fill-neon-green" 
-                              : "text-cinema-text-muted"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-xs text-cinema-text-muted">
-                      {movie.rating}/5
-                    </span>
-                  </div>
-                  <Button 
-                    className="w-full bg-gradient-neon hover:bg-neon-green-glow text-cinema-dark font-semibold rounded-xl"
-                    size="sm"
-                  >
-                    Book Now
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
+              </div>
+              <Button 
+                className="w-full bg-gradient-neon hover:bg-neon-green-glow text-cinema-dark font-semibold rounded-xl mt-2"
+                size="sm"
+              >
+                Book Now
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
