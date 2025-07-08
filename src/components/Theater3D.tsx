@@ -1,9 +1,10 @@
 import { useRef, useState, useCallback } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Text, Box } from "@react-three/drei";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { OrbitControls, Text, Box, RoundedBox, Plane } from "@react-three/drei";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, RotateCcw } from "lucide-react";
 import * as THREE from "three";
+import { TextureLoader, RepeatWrapping, LinearFilter } from 'three';
 
 interface SeatProps {
   position: [number, number, number];
@@ -42,29 +43,56 @@ function Seat({ position, seatNumber, status, onSelect }: SeatProps) {
 
   return (
     <group>
-      <Box
+      {/* Seat base: rounded, cushion-like */}
+      <RoundedBox
         ref={meshRef}
-        position={position}
-        args={[0.8, 0.8, 0.8]}
+        position={[position[0], position[1], position[2]]}
+        args={[0.9, 0.32, 0.9]}
+        radius={0.16}
+        smoothness={6}
         onClick={handleClick}
         onPointerOver={() => setHovered(true)}
         onPointerOut={() => setHovered(false)}
+        castShadow
+        receiveShadow
       >
         <meshStandardMaterial 
           color={getColor()} 
+          roughness={0.45}
+          metalness={0.18}
           emissive={status === 'selected' ? '#B9FF00' : hovered ? '#55E7FC' : '#000000'}
-          emissiveIntensity={status === 'selected' ? 0.3 : hovered ? 0.1 : 0}
+          emissiveIntensity={status === 'selected' ? 0.45 : hovered ? 0.18 : 0}
+        />
+      </RoundedBox>
+      {/* Seat backrest: small box behind, slightly curved */}
+      <Box
+        position={[position[0], position[1] + 0.36, position[2] - 0.28]}
+        args={[0.78, 0.54, 0.16]}
+        rotation={[0.12, 0, 0]}
+        onClick={handleClick}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+        castShadow
+        receiveShadow
+      >
+        <meshStandardMaterial 
+          color={getColor()} 
+          roughness={0.38}
+          metalness={0.12}
+          emissive={status === 'selected' ? '#B9FF00' : hovered ? '#55E7FC' : '#000000'}
+          emissiveIntensity={status === 'selected' ? 0.45 : hovered ? 0.18 : 0}
         />
       </Box>
-      
-      {/* Seat Number */}
+      {/* Seat Number (optional, on hover/selected) */}
       {(hovered || status === 'selected') && (
         <Text
-          position={[position[0], position[1] + 1.2, position[2]]}
-          fontSize={0.3}
+          position={[position[0], position[1] + 1.1, position[2]]}
+          fontSize={0.28}
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
+          outlineColor="#000"
+          outlineWidth={0.03}
         >
           {seatNumber}
         </Text>
@@ -73,44 +101,62 @@ function Seat({ position, seatNumber, status, onSelect }: SeatProps) {
   );
 }
 
-function TheaterEnvironment() {
+function TheaterEnvironment({ poster, rowLabels }: { poster: string, rowLabels: string[] }) {
+  // Use TMDb poster if available, else fallback
+  const tmdbPoster = poster?.startsWith('http') ? poster : undefined;
+  const texture = useLoader(TextureLoader, tmdbPoster || poster);
+  if (texture) {
+    texture.wrapS = texture.wrapT = RepeatWrapping;
+    texture.minFilter = LinearFilter;
+  }
   return (
     <group>
       {/* Theater Floor */}
-      <Box position={[0, -1, 0]} args={[20, 0.2, 15]}>
-        <meshStandardMaterial color="#2a2a2a" />
+      <Box position={[0, -1, 0]} args={[24, 0.2, 22]}>
+        <meshStandardMaterial color="#232323" />
       </Box>
-      
-      {/* Theater Screen */}
-      <Box position={[0, 3, -8]} args={[12, 6, 0.2]}>
-        <meshStandardMaterial color="#000000" emissive="#111111" emissiveIntensity={0.2} />
+      {/* Stage Lighting (subtle) */}
+      <spotLight position={[0, 7, -8]} angle={0.45} penumbra={1} intensity={1.1} color="#B9FF00" castShadow />
+      <spotLight position={[-6, 6, -7]} angle={0.5} penumbra={1} intensity={0.5} color="#55E7FC" />
+      <spotLight position={[6, 6, -7]} angle={0.5} penumbra={1} intensity={0.5} color="#55E7FC" />
+      {/* Ambient and fill lights */}
+      <ambientLight intensity={0.25} />
+      <pointLight position={[0, 10, 0]} intensity={0.3} color="#B9FF00" />
+      {/* Movie Poster Screen (Plane) */}
+      <Plane args={[13, 7]} position={[0, 3.5, -10]} rotation={[-0.01, 0, 0]}>
+        <meshStandardMaterial map={texture} emissive="#ffffff" emissiveIntensity={0.18} />
+      </Plane>
+      {/* Screen Frame (neon) */}
+      <Box position={[0, 3.5, -10.36]} args={[13.4, 7.4, 0.1]}>
+        <meshStandardMaterial color="#B9FF00" emissive="#B9FF00" emissiveIntensity={0.12} />
       </Box>
-      
-      {/* Screen Frame */}
-      <Box position={[0, 3, -8.2]} args={[13, 7, 0.1]}>
-        <meshStandardMaterial color="#B9FF00" emissive="#B9FF00" emissiveIntensity={0.1} />
-      </Box>
-      
-      {/* Ambient Theater Lighting */}
-      <ambientLight intensity={0.3} />
-      <pointLight position={[0, 8, 0]} intensity={0.5} color="#B9FF00" />
-      <spotLight 
-        position={[0, 10, -5]} 
-        angle={0.3} 
-        penumbra={1} 
-        intensity={0.5} 
-        color="#55E7FC"
-        target-position={[0, 0, 0]}
-      />
+      {/* Row Labels (glowing letters on left wall) */}
+      {rowLabels.map((label, i) => (
+        <Text
+          key={label}
+          position={[-7.5, 0.2 + i * 1.2, -6 + i * 1.2]}
+          fontSize={0.6}
+          color="#B9FF00"
+          anchorX="center"
+          anchorY="middle"
+          outlineColor="#B9FF00"
+          outlineWidth={0.04}
+          fillOpacity={0.8}
+        >
+          {label}
+        </Text>
+      ))}
     </group>
   );
 }
 
 interface Theater3DProps {
   onBack: () => void;
+  movie?: { poster: string };
+  theater?: { seatLayout: { row: string, seats: number[] }[] };
 }
 
-export function Theater3D({ onBack }: Theater3DProps) {
+export function Theater3D({ onBack, movie, theater }: Theater3DProps) {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [seatStatuses, setSeatStatuses] = useState<Record<string, 'available' | 'selected' | 'booked'>>({
     'A1': 'booked', 'A2': 'booked', 'B3': 'booked', 'C5': 'booked', 'D7': 'booked',
@@ -133,22 +179,48 @@ export function Theater3D({ onBack }: Theater3DProps) {
     });
   }, []);
 
+  // Realistic stadium layout: 10 rows, 12 seats per row, center aisle, slight curve
+  const defaultLayout = [
+    { row: 'A', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'B', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'C', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'D', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'E', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'F', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'G', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'H', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'I', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+    { row: 'J', seats: [1,2,3,4,5,6,7,8,9,10,11,12] },
+  ];
+  const seatLayout = theater?.seatLayout || defaultLayout;
+
+  const rowLabels = seatLayout.map(r => r.row);
+
   const generateSeats = () => {
     const seats = [];
-    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-    
-    for (let rowIndex = 0; rowIndex < rows.length; rowIndex++) {
-      const row = rows[rowIndex];
-      for (let seatIndex = 1; seatIndex <= 10; seatIndex++) {
-        const seatNumber = `${row}${seatIndex}`;
-        const x = (seatIndex - 5.5) * 1.2;
-        const z = (rowIndex - 3.5) * 1.5;
-        const y = 0;
-        
+    const rowCount = seatLayout.length;
+    const seatDepth = 1.2;
+    const seatWidth = 1.1;
+    const aisleWidth = 1.8;
+    for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+      const row = seatLayout[rowIndex];
+      // Stadium elevation: each row is higher
+      const y = 0.2 + rowIndex * 0.18;
+      // Curve: seats are slightly fanned out
+      const curve = 0.18 * (rowIndex - rowCount / 2);
+      const seatsPerRow = row.seats.length;
+      for (let seatPos = 0; seatPos < seatsPerRow; seatPos++) {
+        // Center aisle between seats 5/6 (for 12 seats: after 6)
+        let x = (seatPos - (seatsPerRow - 1) / 2) * seatWidth;
+        if (seatPos >= 6) x += aisleWidth;
+        // Curve: fan out
+        const angle = (seatPos - (seatsPerRow - 1) / 2) * 0.04;
+        const z = rowIndex * seatDepth - 7;
+        const seatNumber = `${row.row}${row.seats[seatPos]}`;
         seats.push(
           <Seat
             key={seatNumber}
-            position={[x, y, z]}
+            position={[x * Math.cos(curve) - z * Math.sin(curve), y, z * Math.cos(curve) + x * Math.sin(curve)]}
             seatNumber={seatNumber}
             status={seatStatuses[seatNumber] || 'available'}
             onSelect={handleSeatSelect}
@@ -191,16 +263,18 @@ export function Theater3D({ onBack }: Theater3DProps) {
         <Canvas
           camera={{ position: [0, 8, 12], fov: 60 }}
           className="w-full h-full"
+          shadows
         >
-          <TheaterEnvironment />
+          <TheaterEnvironment poster={movie?.poster} rowLabels={rowLabels} />
           {generateSeats()}
           <OrbitControls 
             enablePan={true}
             enableZoom={true}
             enableRotate={true}
-            minDistance={5}
-            maxDistance={25}
+            minDistance={8}
+            maxDistance={32}
             maxPolarAngle={Math.PI / 2}
+            target={[0, 2, -2]}
           />
         </Canvas>
         
