@@ -1,7 +1,6 @@
 import React from "react";
 import { CinemaSidebar } from "./CinemaSidebar";
 import { CenterPanel } from "./CenterPanel";
-import { RightPanel } from "./RightPanel";
 import { ThemeProvider, useTheme } from "@/contexts/ThemeContext";
 
 function CinemaDashboardContent() {
@@ -13,9 +12,6 @@ function CinemaDashboardContent() {
         <CinemaSidebar theme={theme} toggleTheme={toggleTheme} />
       </div>
       <CenterPanel theme={theme} toggleTheme={toggleTheme} />
-      <div className="hidden xl:flex xl:flex-shrink-0">
-        <RightPanel theme={theme} toggleTheme={toggleTheme} />
-      </div>
     </div>
   );
 }
