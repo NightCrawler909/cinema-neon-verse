@@ -47,14 +47,19 @@ export function CenterPanel({ theme, toggleTheme }: {
   const { user } = useUser();
   
   return (
-    <div className="flex-1 p-4 sm:p-6 lg:p-8 bg-gradient-main">
+    <div className="flex-1 p-4 sm:p-6 lg:p-8">
       {/* Header with Search and User Info */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-        <div className="relative w-full sm:w-auto">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cinema-text-muted w-5 h-5" />
-          <Input 
+        {/* Glassmorphic Search Bar styled like profile card */}
+        <div className="relative w-full sm:w-auto glass-searchbar xl:w-[600px] lg:w-[400px] max-w-full h-10" style={{background: 'rgba(255,255,255,0.015)', minHeight: 40, paddingTop: 0, paddingBottom: 0}}>
+          <span className="search-icon">
+            <Search className="w-5 h-5" />
+          </span>
+          <input
+            type="text"
             placeholder="Type to Search..."
-            className="w-full sm:w-80 lg:w-96 xl:w-[500px] glass-card border-0 pl-12 h-12 rounded-xl text-cinema-text placeholder:text-cinema-text-muted"
+            className="w-full h-10 rounded-xl text-cinema-text placeholder:text-cinema-text-muted bg-transparent focus:outline-none"
+            style={{ paddingLeft: 36, height: 40 }}
           />
         </div>
         
@@ -94,14 +99,14 @@ export function CenterPanel({ theme, toggleTheme }: {
       {/* Featured Movie */}
       <div className="mb-8 lg:mb-12">
         <div 
-          className="relative w-full h-48 sm:h-64 lg:h-96 bg-gradient-card rounded-2xl lg:rounded-3xl overflow-hidden shadow-card"
+          className="relative w-full h-48 sm:h-64 lg:h-96 glass-card rounded-2xl lg:rounded-3xl overflow-hidden shadow-card"
           style={{
             backgroundImage: "url('/lovable-uploads/d33775cf-4021-4019-bc26-9117f7ac6a39.png')",
             backgroundSize: "cover",
             backgroundPosition: "center"
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-cinema-dark/80 via-transparent to-cinema-dark/60">
+          <div className="absolute inset-0 bg-cinema-dark/80">
             <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-8">
               <h2 className="text-xl sm:text-2xl lg:text-4xl font-bold text-cinema-text mb-2 sm:mb-3 lg:mb-4">
                 Mavka: Forest Song

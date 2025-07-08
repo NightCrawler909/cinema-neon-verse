@@ -14,6 +14,25 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      {/* Gradient Lights Background */}
+      <div className="dashboard-gradient-lights">
+        <div className="gradient-light cyan topleft" />
+        <div className="gradient-light green center-right" />
+        <div className="gradient-light purple bottomleft" />
+        <div className="gradient-light pink hero" />
+        <div className="gradient-light orange upperright" />
+        <div className="gradient-light purple center" />
+        {/* Center Panel Extra Lights */}
+        <div className="gradient-light purple center-featured" />
+        <div className="gradient-light cyan carousel-left" />
+        <div className="gradient-light green carousel-right" />
+        <div className="gradient-light pink banner-bottom" />
+        <div className="gradient-light cyan centerpanel-searchbar" />
+        {/* Right Panel Extra Lights */}
+        <div className="gradient-light cyan rightpanel-seatmap" />
+        <div className="gradient-light purple rightpanel-summary" />
+        <div className="gradient-light green rightpanel-food" />
+      </div>
       <Toaster />
       <Sonner />
       <BrowserRouter>
