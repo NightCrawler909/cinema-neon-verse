@@ -121,7 +121,11 @@ export function CenterPanel({ theme, toggleTheme }: {
   }, [showtimeSelector]);
 
   if (show3DTheater) {
-    return <Theater3D onBack={() => setShow3DTheater(false)} />;
+    return (
+      <div className="w-full h-screen">
+        <Theater3D onBack={() => setShow3DTheater(false)} />
+      </div>
+    );
   }
 
   return (

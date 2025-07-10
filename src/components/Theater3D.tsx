@@ -100,7 +100,6 @@ function TheaterEnvironment() {
         penumbra={1} 
         intensity={0.5} 
         color="#55E7FC"
-        target-position={[0, 0, 0]}
       />
     </group>
   );
@@ -191,6 +190,10 @@ export function Theater3D({ onBack }: Theater3DProps) {
         <Canvas
           camera={{ position: [0, 8, 12], fov: 60 }}
           className="w-full h-full"
+          gl={{ preserveDrawingBuffer: true, antialias: true }}
+          onCreated={({ gl }) => {
+            gl.setClearColor('#1a1a1a');
+          }}
         >
           <TheaterEnvironment />
           {generateSeats()}
