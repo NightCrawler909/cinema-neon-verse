@@ -123,7 +123,11 @@ export function CenterPanel({ theme, toggleTheme }: {
   if (show3DTheater) {
     return (
       <div className="w-full h-screen">
-        <Theater3D onBack={() => setShow3DTheater(false)} />
+        <Theater3D 
+          onBack={() => setShow3DTheater(false)} 
+          moviePoster="/lovable-uploads/d33775cf-4021-4019-bc26-9117f7ac6a39.png"
+          movieTitle="Mavka: Forest Song"
+        />
       </div>
     );
   }
