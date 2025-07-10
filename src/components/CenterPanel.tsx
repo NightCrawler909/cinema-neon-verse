@@ -8,6 +8,7 @@ import { BottomNavigation } from "./BottomNavigation";
 import { LocationWidget } from "./LocationWidget";
 import { NearbyTheatersSection } from "./NearbyTheatersSection";
 import { TrendingMoviesSection } from "./TrendingMoviesSection";
+import { AllMoviesSection } from "./AllMoviesSection";
 import { Theater3D } from "./Theater3D";
 import { FoodDrinksCard } from "./FoodDrinksCard";
 import shazamPoster from "@/assets/shazam-poster.jpg";

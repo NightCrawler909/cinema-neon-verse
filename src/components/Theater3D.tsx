@@ -75,12 +75,12 @@ function RealisticSeat({ position, seatNumber, status, theaterType, onSelect }: 
   });
 
   const getColors = () => {
-    const baseColor = theaterType === 'recliner' ? '#8B4513' : '#4A4A4A';
-    const accentColor = theaterType === 'recliner' ? '#CD853F' : '#666666';
+    const baseColor = theaterType === 'recliner' ? '#D2B48C' : '#E5E7EB'; // Light gray for better visibility
+    const accentColor = theaterType === 'recliner' ? '#F4A460' : '#D1D5DB';
     
-    if (status === 'booked') return { base: '#ff4444', accent: '#cc2222' };
-    if (status === 'selected') return { base: '#B9FF00', accent: '#9AE600' };
-    if (hovered && status === 'available') return { base: '#55E7FC', accent: '#33C7E8' };
+    if (status === 'booked') return { base: '#EF4444', accent: '#DC2626' }; // Bright red
+    if (status === 'selected') return { base: '#B9FF00', accent: '#9AE600' }; // Bright green
+    if (hovered && status === 'available') return { base: '#55E7FC', accent: '#33C7E8' }; // Cyan glow
     return { base: baseColor, accent: accentColor };
   };
 
@@ -97,6 +97,7 @@ function RealisticSeat({ position, seatNumber, status, theaterType, onSelect }: 
     <group 
       ref={groupRef} 
       position={position}
+      rotation={[0, Math.PI, 0]} // Rotate 180° to face the screen
       onClick={handleClick}
       onPointerOver={(e) => {
         e.stopPropagation();
@@ -113,10 +114,10 @@ function RealisticSeat({ position, seatNumber, status, theaterType, onSelect }: 
       <Box args={[0.7 * seatScale, 0.1, 0.7 * seatScale]} position={[0, 0, 0]}>
         <meshStandardMaterial 
           color={colors.base}
-          metalness={0.2}
-          roughness={0.7}
+          metalness={0.1}
+          roughness={0.5}
           emissive={status === 'selected' ? '#B9FF00' : hovered ? '#55E7FC' : '#000000'}
-          emissiveIntensity={status === 'selected' ? 0.2 : hovered ? 0.1 : 0}
+          emissiveIntensity={status === 'selected' ? 0.3 : hovered ? 0.2 : 0}
         />
       </Box>
       
@@ -124,8 +125,8 @@ function RealisticSeat({ position, seatNumber, status, theaterType, onSelect }: 
       <Box args={[0.6 * seatScale, 0.15, 0.5 * seatScale]} position={[0, 0.125, 0.05]}>
         <meshStandardMaterial 
           color={colors.accent}
-          metalness={0.1}
-          roughness={0.8}
+          metalness={0.05}
+          roughness={0.6}
         />
       </Box>
       
@@ -133,8 +134,8 @@ function RealisticSeat({ position, seatNumber, status, theaterType, onSelect }: 
       <Box args={[0.6 * seatScale, 0.6, 0.1]} position={[0, 0.3, -0.25]}>
         <meshStandardMaterial 
           color={colors.base}
-          metalness={0.2}
-          roughness={0.7}
+          metalness={0.1}
+          roughness={0.5}
         />
       </Box>
       
@@ -328,13 +329,16 @@ export function Theater3D({ onBack, moviePoster, movieTitle = "Mavka: Forest Son
 
   const generateSeats = useMemo(() => {
     const seats = [];
+    const maxSeats = Math.max(...config.seatsPerRow);
+    const theaterWidth = maxSeats * config.seatSpacing + config.aisleWidth;
+    const scaleFactor = theaterType === 'imax' ? 0.8 : 1.0; // Scale down IMAX for better fit
     
     for (let rowIndex = 0; rowIndex < config.rows.length; rowIndex++) {
       const row = config.rows[rowIndex];
       const seatsInRow = config.seatsPerRow[rowIndex];
       
-      // Calculate row position with curvature
-      const baseZ = (rowIndex - config.rows.length / 2) * config.rowSpacing;
+      // Calculate row position with curvature - scale for IMAX
+      const baseZ = (rowIndex - config.rows.length / 2) * config.rowSpacing * scaleFactor;
       
       for (let seatIndex = 1; seatIndex <= seatsInRow; seatIndex++) {
         const seatNumber = `${row}${seatIndex}`;
@@ -345,16 +349,16 @@ export function Theater3D({ onBack, moviePoster, movieTitle = "Mavka: Forest Son
         
         if (!isLeftSide && !isRightSide) continue; // Skip center aisle
         
-        // Calculate X position with proper mirroring
+        // Calculate X position with proper mirroring and scaling
         let x: number;
         if (isLeftSide) {
-          x = -(Math.floor(seatsInRow / 2) - seatIndex + 1) * config.seatSpacing - config.aisleWidth / 2;
+          x = -(Math.floor(seatsInRow / 2) - seatIndex + 1) * config.seatSpacing * scaleFactor - (config.aisleWidth * scaleFactor) / 2;
         } else {
-          x = (seatIndex - Math.ceil(seatsInRow / 2)) * config.seatSpacing + config.aisleWidth / 2;
+          x = (seatIndex - Math.ceil(seatsInRow / 2)) * config.seatSpacing * scaleFactor + (config.aisleWidth * scaleFactor) / 2;
         }
         
-        // Apply curvature for IMAX theaters
-        const curveOffset = config.curvature * Math.pow(x, 2) * 0.01;
+        // Apply curvature for IMAX theaters with scaling
+        const curveOffset = config.curvature * Math.pow(x, 2) * 0.01 * scaleFactor;
         const z = baseZ + curveOffset;
         const y = 0;
         
@@ -444,7 +448,10 @@ export function Theater3D({ onBack, moviePoster, movieTitle = "Mavka: Forest Son
       {/* 3D Canvas */}
       <div className="flex-1 relative">
         <Canvas
-          camera={{ position: [0, 12, 15], fov: 60 }}
+          camera={{ 
+            position: theaterType === 'imax' ? [0, 15, 20] : [0, 12, 15], 
+            fov: theaterType === 'imax' ? 70 : 60 
+          }}
           className="w-full h-full"
           gl={{ 
             preserveDrawingBuffer: true, 

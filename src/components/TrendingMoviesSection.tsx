@@ -1,89 +1,50 @@
 import { Star, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import shazamPoster from "@/assets/shazam-poster.jpg";
-import screamPoster from "@/assets/scream-poster.jpg";
-import mascaradePoster from "@/assets/mascarade-poster.jpg";
-import ritualKillerPoster from "@/assets/ritual-killer-poster.jpg";
-
-const trendingMovies = [
-  {
-    id: 1,
-    title: "Oppenheimer",
-    genre: "Biography, Drama",
-    rating: 5,
-    poster: shazamPoster,
-    isHot: true
-  },
-  {
-    id: 2,
-    title: "Barbie",
-    genre: "Comedy, Adventure",
-    rating: 4,
-    poster: screamPoster,
-    isHot: true
-  },
-  {
-    id: 3,
-    title: "Spider-Man: Across",
-    genre: "Animation, Action",
-    rating: 5,
-    poster: mascaradePoster,
-    isHot: false
-  },
-  {
-    id: 4,
-    title: "Fast X",
-    genre: "Action, Crime",
-    rating: 4,
-    poster: ritualKillerPoster,
-    isHot: false
-  },
-  {
-    id: 5,
-    title: "Guardians Galaxy 3",
-    genre: "Action, Adventure",
-    rating: 4,
-    poster: shazamPoster,
-    isHot: true
-  },
-  {
-    id: 6,
-    title: "John Wick 4",
-    genre: "Action, Crime",
-    rating: 5,
-    poster: screamPoster,
-    isHot: false
-  },
-  {
-    id: 7,
-    title: "The Flash",
-    genre: "Action, Adventure",
-    rating: 3,
-    poster: mascaradePoster,
-    isHot: false
-  },
-  {
-    id: 8,
-    title: "Transformers: Rise",
-    genre: "Action, Sci-Fi",
-    rating: 4,
-    poster: ritualKillerPoster,
-    isHot: true
-  }
-];
+import { useEffect, useState } from "react";
+import { tmdbService, Movie } from "@/services/tmdbService";
 
 export function TrendingMoviesSection() {
-  // Show only top 3 trending movies
-  const topTrendingMovies = trendingMovies.slice(0, 3);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTrendingMovies = async () => {
+      try {
+        const trendingMovies = await tmdbService.getTrendingMovies();
+        setMovies(trendingMovies.slice(0, 3)); // Show only top 3
+      } catch (error) {
+        console.error('Failed to fetch trending movies:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTrendingMovies();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="w-[200px] md:w-[200px] xl:w-[220px]">
+            <div className="aspect-[3/4] bg-cinema-card rounded-xl animate-pulse mb-4"></div>
+            <div className="h-4 bg-cinema-card rounded animate-pulse mb-2"></div>
+            <div className="h-3 bg-cinema-card rounded animate-pulse w-3/4"></div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 justify-items-center">
-      {topTrendingMovies.map((movie) => (
+      {movies.map((movie) => (
         <Card 
           key={movie.id} 
           className="w-[200px] md:w-[200px] xl:w-[220px] glass-card border-0 shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 cursor-pointer relative flex flex-col"
         >
-          {movie.isHot && (
+          {movie.popularity > 1000 && (
             <div className="absolute -top-2 -right-2 bg-gradient-neon text-cinema-dark text-xs font-bold px-2 py-1 rounded-full z-10">
               HOT 🔥
             </div>
@@ -91,9 +52,12 @@ export function TrendingMoviesSection() {
           <CardContent className="p-0 flex-1 flex flex-col">
             <div className="aspect-[3/4] bg-cinema-card relative rounded-t-xl overflow-hidden">
               <img 
-                src={movie.poster} 
+                src={tmdbService.getPosterUrl(movie.poster_path) || '/placeholder.svg'} 
                 alt={movie.title}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/placeholder.svg';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-cinema-dark/80 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
                 <Button 
@@ -111,19 +75,22 @@ export function TrendingMoviesSection() {
                   {movie.title}
                 </h3>
                 <p className="text-cinema-text-muted text-xs mb-2">
-                  {movie.genre}
+                  {new Date(movie.release_date).getFullYear()} • {movie.original_language.toUpperCase()}
                 </p>
                 <div className="flex items-center gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (
                     <Star 
                       key={i}
                       className={`w-3 h-3 ${
-                        i < movie.rating 
+                        i < Math.round(movie.vote_average / 2) 
                           ? "text-neon-green fill-neon-green" 
                           : "text-cinema-text-muted"
                       }`}
                     />
                   ))}
+                  <span className="text-xs text-cinema-text-muted ml-1">
+                    ({tmdbService.formatRating(movie.vote_average)})
+                  </span>
                 </div>
               </div>
               <Button 
