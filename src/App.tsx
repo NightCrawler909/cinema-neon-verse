@@ -8,6 +8,7 @@ import MyBookings from "./pages/MyBookings";
 import Favourites from "./pages/Favourites";
 import FoodAndDrinks from "./pages/FoodAndDrinks";
 import NotFound from "./pages/NotFound";
+import MovieDetail from "./pages/MovieDetail";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/bookings" element={<MyBookings />} />
           <Route path="/favourites" element={<Favourites />} />
           <Route path="/food-drinks" element={<FoodAndDrinks />} />
+          <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

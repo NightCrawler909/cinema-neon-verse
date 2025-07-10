@@ -131,6 +131,26 @@ class TMDBService {
   formatRating(rating: number): number {
     return Math.round((rating / 2) * 10) / 10; // Convert 10-point to 5-point scale
   }
+
+  async getMovieDetails(movieId: number): Promise<any> {
+    return this.fetchFromTMDB(`/movie/${movieId}`);
+  }
+
+  async getMovieVideos(movieId: number): Promise<any> {
+    return this.fetchFromTMDB(`/movie/${movieId}/videos`);
+  }
+
+  async getMovieCredits(movieId: number): Promise<any> {
+    return this.fetchFromTMDB(`/movie/${movieId}/credits`);
+  }
+
+  async getMovieReviews(movieId: number): Promise<any> {
+    return this.fetchFromTMDB(`/movie/${movieId}/reviews`);
+  }
+
+  async getMovieRecommendations(movieId: number): Promise<any> {
+    return this.fetchFromTMDB(`/movie/${movieId}/recommendations`);
+  }
 }
 
 export const tmdbService = new TMDBService();

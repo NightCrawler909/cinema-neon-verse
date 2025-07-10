@@ -18,37 +18,7 @@ import ritualKillerPoster from "@/assets/ritual-killer-poster.jpg";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
-
-const movies = [
-  {
-    id: 1,
-    title: "Shazam: Fury of the Gods",
-    genre: "Action, Adventure",
-    rating: 4,
-    poster: shazamPoster
-  },
-  {
-    id: 2,
-    title: "Scream VI",
-    genre: "Horror, Mystery",
-    rating: 5,
-    poster: screamPoster
-  },
-  {
-    id: 3,
-    title: "Mascarade",
-    genre: "Comedy, Drama",
-    rating: 4,
-    poster: mascaradePoster
-  },
-  {
-    id: 4,
-    title: "The Ritual Killer",
-    genre: "Mystery, Action Thriller",
-    rating: 3,
-    poster: ritualKillerPoster
-  }
-];
+import { useNavigate } from "react-router-dom";
 
 export function CenterPanel({ theme, toggleTheme }: { 
   theme: string; 
@@ -120,6 +90,8 @@ export function CenterPanel({ theme, toggleTheme }: {
       setSelectedShowtime(null);
     }
   }, [showtimeSelector]);
+
+  const navigate = useNavigate();
 
   if (show3DTheater) {
     return (
@@ -251,49 +223,7 @@ export function CenterPanel({ theme, toggleTheme }: {
       {/* All Movies Section */}
       <div className="mb-8">
         <h2 className="text-xl font-bold text-cinema-text mb-6">🍿 All Movies</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {movies.map((movie) => (
-            <div 
-              key={movie.id}
-              className="glass-card rounded-2xl overflow-hidden shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105 cursor-pointer"
-            >
-              <div className="aspect-[3/4] bg-cinema-card relative">
-                <img 
-                  src={movie.poster} 
-                  alt={movie.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-cinema-text font-semibold mb-1 line-clamp-2">
-                  {movie.title}
-                </h3>
-                <p className="text-cinema-text-muted text-sm mb-2">
-                  {movie.genre}
-                </p>
-                <div className="flex items-center gap-1 mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i}
-                      className={`w-4 h-4 ${
-                        i < movie.rating 
-                          ? "text-neon-green fill-neon-green" 
-                          : "text-cinema-text-muted"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <Button 
-                  onClick={e => setShowtimeSelector({ movie, anchor: e.currentTarget })}
-                  className="w-full bg-gradient-neon hover:bg-neon-green-glow text-cinema-dark font-semibold rounded-xl"
-                  size="sm"
-                >
-                  Book Tickets
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <AllMoviesSection />
       </div>
 
       {/* Showtime Selector Modal */}
